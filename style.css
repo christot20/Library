@@ -4,6 +4,11 @@ body{
     display: flex;
     flex-direction: column;
 }
+section{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /*get this to be the size based on width of the screen */
+    gap: 10vw;
+}
 form{
     display: none;
     justify-content: center;
@@ -12,4 +17,9 @@ form{
     height: 200px;
     width: 200px;
     background-color: blue;
+}
+section div{
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
 }

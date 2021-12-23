@@ -12,11 +12,17 @@ close.onclick = function() {
 
 let submit = document.getElementById("submit"); //look at html for onsubmit return false
 submit.onclick = function(){ //try to have it reset form instead of close
-    addBookToLibrary();
-    document.getElementById("title").value = "";
-    document.getElementById("author").value = "";
-    document.getElementById("pages").value = "";
-    document.getElementById("dispForm").style.display="none";
+    if(document.getElementById("title").value === "" || document.getElementById("author").value === "" || document.getElementById("pages").value === ""){
+        alert("You Must Enter a Value For Each Input Box!") //see if u can style the input box
+    }
+    else{
+        addBookToLibrary();
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("pages").value = "";
+        document.getElementById("status").checked = false;
+        document.getElementById("dispForm").style.display="none";
+    }
 }
 
 let myLibrary = []; //array for adding objects
@@ -36,14 +42,90 @@ function addBookToLibrary() { //function to make new objects
     let pages = document.getElementById("pages").value;
     let read = document.getElementById("status").checked;
 
-    addBooked = new Book(title, author, pages, read)
+    //make a conditional here not allowing user to not be able to make a book with empty inputs
+
+    let addBooked = new Book(title, author, pages, read)
 
     myLibrary.push(addBooked);
     console.log(addBooked);
     console.log(myLibrary);
+    display();
 }
 
 
+let body = document.querySelector("body");
+let container = document.getElementById("libCont")
+function display(){ //function to display books
+    j = 0
+    for (var i = 0; i < myLibrary.length; i++){
+        j += 1
+        console.log(j)
+
+        let element = document.createElement("div");
+        if (j === myLibrary.length){
+            element.setAttribute("id", "div"+(j)); //try to find a way to delete first elements instead fo last ones
+        }
+        container.appendChild(element);
+
+        console.log(myLibrary[i]);
+        
+        //try to have this thing be added to different tags instead of the text of one div
+        // make the title go in a h2, author and pages in another thing with pre written text and a button to check and uncheck the status
+        //find way to get the title, author, pages, status and all in another type of tag !@#!@#!@#!@#!@#
+        //get local sotrage to work for these too
+        //maybe make a side with the form displayed and have the right be the divs with the books
+
+        let txt = Object.values(myLibrary[myLibrary.length-1]); //see if this can be array and have values be attributed to this, old code is on code pen                     
+        //element.innerHTML = txt;
+        if (j != myLibrary.length){
+            element.remove();
+        }
+        let titleTag = document.createElement("h2");
+        element.appendChild(titleTag);
+        titleTag.innerHTML = txt[0];
+
+        let authorTag = document.createElement("p");
+        element.appendChild(authorTag);
+        authorTag.innerHTML = "Written By: "+txt[1];
+
+        let pagesTag = document.createElement("p"); //have this have a +pages thing when adding text content
+        element.appendChild(pagesTag);
+        pagesTag.innerHTML = txt[2]+" pages";
+  
+        let readButton = document.createElement("button"); //get read button working to change status of read through dom
+        readButton.setAttribute("id", "RB");               //maybe make it so that itll say wither completed or not completed and change when it does (also get checkmark to always be off)
+        element.appendChild(readButton);
+        if (txt [3] === true){
+                txt[3] = false;
+                readButton.innerHTML = "Completed";
+                readButton.style.background = "green"
+            }
+            else if (txt [3] === false){
+                txt[3] = true;
+                readButton.innerHTML = "Reading";
+                readButton.style.background = "red" //have this value alter the color of the read button to green or red and the text to either not read or read
+        }                   //example: someone does it with no check so the class is not complete, if the button is clicked itll be complete
+        readButton.onclick = function(){ 
+            if (txt [3] === true){
+                txt[3] = false;
+                readButton.innerHTML = "Completed";
+                readButton.style.background = "green"
+            }
+            else if (txt [3] === false){
+                txt[3] = true; 
+                readButton.innerHTML = "Reading";
+                readButton.style.background = "red" //have this value alter the color of the read button to green or red and the text to either not read or read
+            }
+        }
+
+        let removeButton = document.createElement("button"); //delete the book for this thing and the associated div
+        removeButton.setAttribute("id", "RemB");
+        element.appendChild(removeButton);
+
+         //if read is checked and its clicked make it un read and if noit checked and clicked make it checked (false to true and true to false)
+        removeButton.innerHTML = "Remove";
+    }
+}
 
 // make input values equal object values
 // make new object and put it in array
