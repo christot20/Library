@@ -58,15 +58,15 @@ let container = document.getElementById("libCont")
 function display(){ //function to display books
     j = 0
     for (var i = 0; i < myLibrary.length; i++){
-        j += 1
         console.log(j)
 
         let element = document.createElement("div");
-        if (j === myLibrary.length){
-            element.setAttribute("id", "div"+(j)); //try to find a way to delete first elements instead fo last ones
+        element.setAttribute("class", "bdiv");
+        if (j === myLibrary.length-1){
+            element.setAttribute("id", j); //try to find a way to delete first elements instead fo last ones
         }
         container.appendChild(element);
-
+        j += 1;
         console.log(myLibrary[i]);
         
         //try to have this thing be added to different tags instead of the text of one div
@@ -90,7 +90,7 @@ function display(){ //function to display books
 
         let pagesTag = document.createElement("p"); //have this have a +pages thing when adding text content
         element.appendChild(pagesTag);
-        pagesTag.innerHTML = txt[2]+" pages";
+        pagesTag.innerHTML = txt[2]+" Pages";
   
         let readButton = document.createElement("button"); //get read button working to change status of read through dom
         readButton.setAttribute("id", "RB");               //maybe make it so that itll say wither completed or not completed and change when it does (also get checkmark to always be off)
@@ -98,29 +98,39 @@ function display(){ //function to display books
         if (txt [3] === true){
                 txt[3] = false;
                 readButton.innerHTML = "Completed";
-                readButton.style.background = "green"
+                readButton.style.background = "green";
             }
             else if (txt [3] === false){
                 txt[3] = true;
                 readButton.innerHTML = "Reading";
-                readButton.style.background = "red" //have this value alter the color of the read button to green or red and the text to either not read or read
+                readButton.style.background = "red"; //have this value alter the color of the read button to green or red and the text to either not read or read
         }                   //example: someone does it with no check so the class is not complete, if the button is clicked itll be complete
         readButton.onclick = function(){ 
             if (txt [3] === true){
                 txt[3] = false;
                 readButton.innerHTML = "Completed";
-                readButton.style.background = "green"
+                readButton.style.background = "green";
             }
             else if (txt [3] === false){
                 txt[3] = true; 
                 readButton.innerHTML = "Reading";
-                readButton.style.background = "red" //have this value alter the color of the read button to green or red and the text to either not read or read
+                readButton.style.background = "red"; //have this value alter the color of the read button to green or red and the text to either not read or read
             }
         }
 
         let removeButton = document.createElement("button"); //delete the book for this thing and the associated div
         removeButton.setAttribute("id", "RemB");
         element.appendChild(removeButton);
+        removeButton.onclick = function(e){
+            //alert("augh")
+            element.remove();
+            y = parseInt(e.target.parentNode.id)
+            myLibrary.splice(y,1);
+            console.log(myLibrary);
+            console.log(e)
+            console.log(e.target.parentNode.id)
+            //try to make a way to delete book from array if not in dom
+        }
 
          //if read is checked and its clicked make it un read and if noit checked and clicked make it checked (false to true and true to false)
         removeButton.innerHTML = "Remove";
