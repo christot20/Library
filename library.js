@@ -1,14 +1,17 @@
-const addBook = document.querySelector("#NB"); // button to open form
-addBook.addEventListener('click', formCreate);
+// const addBook = document.querySelector("#NB"); // button to open form
+// addBook.addEventListener('click', formCreate);
 
-function formCreate(){
-    document.getElementById("dispForm").style.display="flex"; //form becomes visible
-}
+// function formCreate(){
+//     document.getElementById("dispForm").style.display="flex"; //form becomes visible
+// }
 
-let close = document.getElementById("close");  //button to close form
-close.onclick = function() {
-    document.getElementById("dispForm").style.display="none";
-}
+// let close = document.getElementById("close");  //button to close form
+// close.onclick = function() {
+//     document.getElementById("dispForm").style.display="none";
+// }
+
+let total = document.getElementById("total");
+let content = document.getElementById("libcont");
 
 let submit = document.getElementById("submit"); //look at html for onsubmit return false
 submit.onclick = function(){ //try to have it reset form instead of close
@@ -21,7 +24,7 @@ submit.onclick = function(){ //try to have it reset form instead of close
         document.getElementById("author").value = "";
         document.getElementById("pages").value = "";
         document.getElementById("status").checked = false;
-        document.getElementById("dispForm").style.display="none";
+        // document.getElementById("dispForm").style.display="none";
     }
 }
 
@@ -36,19 +39,18 @@ class Book { //constructor
         this.read = read;
     }
 }
+let a = 0;
+let b = 0;
 function addBookToLibrary() { //function to make new objects
     let title =  document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let pages = document.getElementById("pages").value;
     let read = document.getElementById("status").checked;
 
-    //make a conditional here not allowing user to not be able to make a book with empty inputs
 
     let addBooked = new Book(title, author, pages, read)
 
     myLibrary.push(addBooked);
-    console.log(addBooked);
-    console.log(myLibrary);
     display();
 }
 
@@ -56,9 +58,9 @@ function addBookToLibrary() { //function to make new objects
 let body = document.querySelector("body");
 let container = document.getElementById("libCont")
 function display(){ //function to display books
+    console.log(myLibrary)
     j = 0
     for (var i = 0; i < myLibrary.length; i++){
-        console.log(j)
 
         let element = document.createElement("div");
         element.setAttribute("class", "bdiv");
@@ -67,7 +69,7 @@ function display(){ //function to display books
         }
         container.appendChild(element);
         j += 1;
-        console.log(myLibrary[i]);
+        //console.log(myLibrary[i]);
         
         //try to have this thing be added to different tags instead of the text of one div
         // make the title go in a h2, author and pages in another thing with pre written text and a button to check and uncheck the status
@@ -97,24 +99,30 @@ function display(){ //function to display books
         element.appendChild(readButton);
         if (txt [3] === true){
                 txt[3] = false;
+                Book.read = txt[3];
                 readButton.innerHTML = "Completed";
                 readButton.style.background = "green";
             }
             else if (txt [3] === false){
                 txt[3] = true;
+                Book.read = txt[3];
                 readButton.innerHTML = "Reading";
-                readButton.style.background = "red"; //have this value alter the color of the read button to green or red and the text to either not read or read
+                readButton.style.background = "red";
+                //have this value alter the color of the read button to green or red and the text to either not read or read
         }                   //example: someone does it with no check so the class is not complete, if the button is clicked itll be complete
         readButton.onclick = function(){ 
             if (txt [3] === true){
                 txt[3] = false;
+                Book.read = txt[3];
                 readButton.innerHTML = "Completed";
                 readButton.style.background = "green";
             }
             else if (txt [3] === false){
                 txt[3] = true; 
+                Book.read = txt[3];
                 readButton.innerHTML = "Reading";
-                readButton.style.background = "red"; //have this value alter the color of the read button to green or red and the text to either not read or read
+                readButton.style.background = "red";
+                //have this value alter the color of the read button to green or red and the text to either not read or read
             }
         }
 
@@ -127,15 +135,34 @@ function display(){ //function to display books
             y = parseInt(e.target.parentNode.id)
             myLibrary.splice(y,1);
             console.log(myLibrary);
-            console.log(e)
-            console.log(e.target.parentNode.id)
-            //try to make a way to delete book from array if not in dom
-        }
+            total.innerHTML = "Total Books: "+myLibrary.length; 
 
+            // console.log(e)
+            // console.log(e.target.parentNode.id)
+            //try to make a way to delete book from array if not in dom
+
+            //make the form a thing on the side in the dom and reserve the left for the books
+        }
+        let removeAllButton = document.getElementById("removeAll"); //delete the book for this thing and the associated div
+        removeAllButton.onclick = function(e){
+            console.log(e)
+            let rDivs = document.querySelectorAll(".bdiv");
+            console.log(rDivs)
+            for (let y = rDivs.length-1; y >= 0; y--) {
+                rDivs[y].remove();
+            }
+            myLibrary = []
+            total.innerHTML = "Total Books: "+myLibrary.length;
+            console.log(myLibrary)
+        }
          //if read is checked and its clicked make it un read and if noit checked and clicked make it checked (false to true and true to false)
         removeButton.innerHTML = "Remove";
+        total.innerHTML = "Total Books: "+myLibrary.length;
     }
 }
+//maybe find a way to find the color of the read button and use that to see how many are read and not read 2#$@#$@#!$!@#$
+//find a way to have the read value in its respected object change with the button change
+//get webstorage api working
 
 // make input values equal object values
 // make new object and put it in array
