@@ -48,7 +48,7 @@ form{
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    height: 300px; 
+    height: 310px; 
     width: 200px;
     gap: 1em;
 }
@@ -81,6 +81,7 @@ section div{
     align-items: center;
     justify-content:center;
     gap: 5vw;
+    font-size: 20px;
 }
 footer{
     font-family: cursive;
@@ -113,12 +114,25 @@ footer{
     color: rgb(0, 0, 0);
     border-radius: 5px;
     border: solid 2px black;
+    font-size: 14px;
 }
 #remButton{
     background-color: rgb(238, 77, 77);
 }
-#readButton{
+input[type=text], input[type=number]{
+    width: 100%;
+    padding: 3px 10px;
+    box-sizing: border-box;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color: gray;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     
+}
+::placeholder{
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 #check{
     display: flex;
